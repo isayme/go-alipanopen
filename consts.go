@@ -1,4 +1,4 @@
-package goalipanopen
+package alipanopen
 
 var (
 	ROOT_FOLDER_ID = "root"

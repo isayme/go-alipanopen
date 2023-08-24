@@ -1,4 +1,4 @@
-package goalipanopen
+package alipanopen
 
 import (
 	"encoding/json"
