@@ -37,9 +37,7 @@ const (
 	API_FILE_GET_DOWNLOAD_URL  = "/adrive/v1.0/openFile/getDownloadUrl"
 )
 
-/**
- * 二维码状态
- */
+// 二维码状态
 const (
 	QRCODE_STATUS_WAITLOGIN     = "WaitLogin"     // 等待扫码
 	QRCODE_STATUS_SCANSUCCESS   = "ScanSuccess"   // 已扫描
@@ -47,9 +45,7 @@ const (
 	QRCODE_STATUS_QRCODEEXPIRED = "QRCodeExpired" // 已过期
 )
 
-/**
- * 权限信息
- */
+// 权限信息
 const (
 	SCOPE_USER_BASE      = "user:base"      // 允许获取用户基础信息
 	SCOPE_FILE_ALL_READ  = "file:all:read"  // 允许读用户文件

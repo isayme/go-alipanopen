@@ -8,9 +8,7 @@ type RefreshTokenResp struct {
 	ExpiresIn    int    `json:"expires_in"`    // 单位秒
 }
 
-/**
- * 使用 refresh_token 刷新获取新的用户 token
- */
+// 使用 refresh_token 刷新获取新的用户 token
 func (client *Client) RefreshToken(ctx context.Context, clientId, clientSecret string, refreshToken string) (*RefreshTokenResp, error) {
 	reqBody := map[string]string{
 		"client_id":     clientId,
@@ -27,9 +25,7 @@ func (client *Client) RefreshToken(ctx context.Context, clientId, clientSecret s
 	return respBody, nil
 }
 
-/**
- * 使用 authCode 获取新的用户 token
- */
+// 使用 authCode 获取新的用户 token
 func (client *Client) RefreshTokenByAuthCode(ctx context.Context, clientId, clientSecret string, authCode string) (*RefreshTokenResp, error) {
 	reqBody := map[string]string{
 		"client_id":     clientId,

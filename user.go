@@ -7,9 +7,7 @@ type User struct {
 	Name string `json:"name"` // 用户昵称
 }
 
-/**
- * 获取当前用户信息
- */
+// 获取当前用户信息
 func (client *Client) GetCurrentUser(ctx context.Context) (*User, error) {
 	reqBody := EmptyStruct{}
 

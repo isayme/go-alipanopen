@@ -8,9 +8,7 @@ type GetDriveInfoResp struct {
 	BackupDriveId   string `json:"backup_drive_id"`   // 备份盘空间ID
 }
 
-/**
- * 获取当前用户空间信息
- */
+// 获取当前用户空间信息
 func (client *Client) GetDriveInfo(ctx context.Context) (*GetDriveInfoResp, error) {
 	reqBody := EmptyStruct{}
 

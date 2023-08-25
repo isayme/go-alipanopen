@@ -14,9 +14,7 @@ type Client struct {
 	c           *resty.Client
 }
 
-/**
- * 新建client
- */
+// 新建client
 func NewClient() *Client {
 	return &Client{
 		host: ALIPAN_OPENAPI_HOST,
