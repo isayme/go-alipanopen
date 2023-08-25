@@ -10,6 +10,9 @@ type GetQrCodeResp struct {
 	Sid       string `json:"sid"`
 }
 
+/**
+ * 获取二维码
+ */
 func (client *Client) GetQrCode(ctx context.Context, clientId, clientSecret string) (*GetQrCodeResp, error) {
 	reqBody := map[string]interface{}{
 		"client_id":     clientId,
@@ -29,6 +32,9 @@ type GetQrCodeStatusResp struct {
 	AuthCode string `json:"authCode"`
 }
 
+/**
+ * 获取二维码状态
+ */
 func (client *Client) GetQrCodeStatus(ctx context.Context, sid string) (*GetQrCodeStatusResp, error) {
 	respBody := &GetQrCodeStatusResp{}
 	_, err := client.request(METHOD_GET, fmt.Sprintf("/oauth/qrcode/%s/status", sid), nil, nil, respBody)

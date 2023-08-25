@@ -5,30 +5,36 @@ import (
 	"time"
 )
 
+/**
+ * 文件模型
+ */
 type File struct {
-	FileName     string    `json:"name"`
-	FileSize     int64     `json:"size"`
-	UpdatedAt    time.Time `json:"updated_at"`
-	ContentHash  string    `json:"content_hash"`
-	Type         string    `json:"type"`
-	DriveId      string    `json:"drive_id"`
-	FileId       string    `json:"file_id"`
-	ParentFileId string    `json:"parent_file_id"`
+	FileName     string    `json:"name"`           // 名称
+	FileSize     int64     `json:"size"`           // 大小
+	UpdatedAt    time.Time `json:"updated_at"`     // 更新时间
+	ContentHash  string    `json:"content_hash"`   // 文件内容sha1
+	Type         string    `json:"type"`           // 文件类型
+	DriveId      string    `json:"drive_id"`       // 所属空间ID
+	FileId       string    `json:"file_id"`        // 文件ID
+	ParentFileId string    `json:"parent_file_id"` // 父文件夹ID
 }
 
 type ListFileReq struct {
 	DriveId      string `json:"drive_id"`
 	ParentFileId string `json:"parent_file_id"`
 
-	Limit  int    `json:"limit"`
-	Marker string `json:"marker"`
+	Limit  int    `json:"limit"`  // 单页数量
+	Marker string `json:"marker"` // 分页用
 }
 
 type ListFileResp struct {
 	Items      []*File `json:"items"`
-	NextMarker string  `json:"next_marker"`
+	NextMarker string  `json:"next_marker"` // 分页用
 }
 
+/**
+ * 列举文件夹下文件
+ */
 func (client *Client) ListFolder(ctx context.Context, reqBody *ListFileReq) ([]*File, error) {
 	respBody := ListFileResp{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_LIST, reqBody, &respBody)
@@ -44,6 +50,9 @@ type GetFileDownloadUrlResp struct {
 	Expiration time.Time `json:"expiration"`
 }
 
+/**
+ * 获取文件下载地址
+ */
 func (client *Client) GetDownloadUrl(ctx context.Context, driveId, fileId string) (*GetFileDownloadUrlResp, error) {
 	reqBody := map[string]string{
 		"drive_id": driveId,
@@ -60,14 +69,19 @@ func (client *Client) GetDownloadUrl(ctx context.Context, driveId, fileId string
 }
 
 type CreateFolderReq struct {
-	Name          string `json:"name"`
-	DriveId       string `json:"drive_id"`
-	ParentFileId  string `json:"parent_file_id"`
-	Type          string `json:"type"`
-	CheckNameMode string `json:"check_name_mode"`
+	Name          string `json:"name"`            // 文件夹名称
+	DriveId       string `json:"drive_id"`        // 所属空间ID
+	ParentFileId  string `json:"parent_file_id"`  // 父文件夹ID
+	Type          string `json:"type"`            // 固定是 folder
+	CheckNameMode string `json:"check_name_mode"` // 重名检测策略
 }
 
+/**
+ * 创建文件夹
+ */
 func (client *Client) CreateFolder(ctx context.Context, reqBody *CreateFolderReq) (*File, error) {
+	reqBody.Type = FILE_TYPE_FOLDER
+
 	fi := &File{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_CREATE, reqBody, fi)
 	if err != nil {
@@ -78,17 +92,22 @@ func (client *Client) CreateFolder(ctx context.Context, reqBody *CreateFolderReq
 }
 
 type CreateFileReq struct {
-	Name            string `json:"name"`
-	DriveId         string `json:"drive_id"`
-	ParentFileId    string `json:"parent_file_id"`
-	Type            string `json:"type"`
-	ContentHash     string `json:"content_hash"`
+	Name            string `json:"name"`           // 文件名
+	DriveId         string `json:"drive_id"`       // 文件所属空间ID
+	ParentFileId    string `json:"parent_file_id"` // 文件ID
+	Type            string `json:"type"`           // 文件类型
+	ContentHash     string `json:"content_hash"`   // 文件内容sha1
 	ContentHashName string `json:"content_hash_name"`
-	CheckNameMode   string `json:"check_name_mode"`
-	Size            int64  `json:"size"`
+	CheckNameMode   string `json:"check_name_mode"` // 重名检测策略
+	Size            int64  `json:"size"`            // 文件大小
 }
 
+/**
+ * 创建文件
+ */
 func (client *Client) CreateFile(ctx context.Context, reqBody *CreateFileReq) (*CreateFileResp, error) {
+	reqBody.Type = FILE_TYPE_FILE
+
 	respBody := CreateFileResp{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_CREATE, reqBody, &respBody)
 	if err != nil {
@@ -111,6 +130,9 @@ type CreateFileResp struct {
 	PartInfoList []UploadPartInfo `json:"part_info_list"`
 }
 
+/**
+ * 删除文件
+ */
 func (client *Client) DeleteFile(ctx context.Context, driveId, fileId string) error {
 	reqBody := map[string]string{
 		"drive_id": driveId,
@@ -136,6 +158,9 @@ type CompleteFileResp struct {
 	Size        int64  `json:"size"`
 }
 
+/**
+ * 完成文件创建
+ */
 func (client *Client) CompleteFile(ctx context.Context, reqBody *CompleteFileReq) (*CompleteFileResp, error) {
 	respBody := &CompleteFileResp{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_COMPLETE, reqBody, respBody)
@@ -146,6 +171,9 @@ func (client *Client) CompleteFile(ctx context.Context, reqBody *CompleteFileReq
 	return respBody, nil
 }
 
+/**
+ * 将文件移入回收站
+ */
 func (client *Client) TrashFile(ctx context.Context, driveId, fileId string) error {
 	reqBody := map[string]string{
 		"drive_id": driveId,
@@ -160,13 +188,16 @@ func (client *Client) TrashFile(ctx context.Context, driveId, fileId string) err
 type MoveFileReq struct {
 	DriveId string `json:"drive_id"`
 	FileId  string `json:"file_id"`
-	NewName string `json:"new_name"`
+	NewName string `json:"new_name"` // 新文件名
 
 	CheckNameMode  string `json:"check_name_mode"`
 	Overwrite      bool   `json:"overwrite"`
-	ToParentFileId string `json:"to_parent_file_id"`
+	ToParentFileId string `json:"to_parent_file_id"` // 目的文件夹ID
 }
 
+/**
+ * 移动文件
+ */
 func (client *Client) MoveFile(ctx context.Context, reqBody *MoveFileReq) error {
 	respBody := EmptyStruct{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_MOVE, reqBody, &respBody)
@@ -180,6 +211,9 @@ type UpdateFileNameReq struct {
 	CheckNameMode string `json:"check_name_mode"`
 }
 
+/**
+ * 更新文件名
+ */
 func (client *Client) UpdateFileName(ctx context.Context, reqBody *UpdateFileNameReq) error {
 	respBody := EmptyStruct{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_UPDATE, reqBody, &respBody)
@@ -203,6 +237,9 @@ type GetUploadUrlResp struct {
 	PartInfoList []UploadPartInfo `json:"part_info_list"`
 }
 
+/**
+ * 获取文件上传地址
+ */
 func (client *Client) GetUploadUrl(ctx context.Context, reqBody *GetUploadUrlReq) (*GetUploadUrlResp, error) {
 	respBody := &GetUploadUrlResp{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_UPLOAD_URL, reqBody, respBody)

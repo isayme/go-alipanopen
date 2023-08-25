@@ -1,15 +1,15 @@
 package alipanopen
 
-var (
-	ROOT_FOLDER_ID = "root"
+const (
+	ROOT_FOLDER_ID = "root" // 跟目录ID
 
-	FILE_TYPE_FILE   = "file"
-	FILE_TYPE_FOLDER = "folder"
+	FILE_TYPE_FILE   = "file"   // 文件类型：文件
+	FILE_TYPE_FOLDER = "folder" // 文件类型：文件夹
 
-	CHECK_NAME_MODE_REFUSE = "refuse"
+	CHECK_NAME_MODE_REFUSE = "refuse" // 重名检测策略：拒绝
 )
 
-var (
+const (
 	ALIPAN_OPENAPI_HOST = "https://openapi.aliyundrive.com"
 
 	HEADER_HOST          = "Host"
@@ -37,15 +37,21 @@ var (
 	API_FILE_GET_DOWNLOAD_URL  = "/adrive/v1.0/openFile/getDownloadUrl"
 )
 
+/**
+ * 二维码状态
+ */
 const (
-	QR_CODE_STATUS_WAITLOGIN    = "WaitLogin"
-	QRCODE_STATUS_SCANSUCCESS   = "ScanSuccess"
-	QRCODE_STATUS_LOGINSUCCESS  = "LoginSuccess"
-	QRCODE_STATUS_QRCODEEXPIRED = "QRCodeExpired"
+	QRCODE_STATUS_WAITLOGIN     = "WaitLogin"     // 等待扫码
+	QRCODE_STATUS_SCANSUCCESS   = "ScanSuccess"   // 已扫描
+	QRCODE_STATUS_LOGINSUCCESS  = "LoginSuccess"  // 已授权登录
+	QRCODE_STATUS_QRCODEEXPIRED = "QRCodeExpired" // 已过期
 )
 
+/**
+ * 权限信息
+ */
 const (
-	SCOPE_USER_BASE      = "user:base"
-	SCOPE_FILE_ALL_READ  = "file:all:read"
-	SCOPE_FILE_ALL_WRITE = "file:all:write"
+	SCOPE_USER_BASE      = "user:base"      // 允许获取用户基础信息
+	SCOPE_FILE_ALL_READ  = "file:all:read"  // 允许读用户文件
+	SCOPE_FILE_ALL_WRITE = "file:all:write" // 允许写用户文件
 )

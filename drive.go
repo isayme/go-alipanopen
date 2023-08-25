@@ -3,11 +3,14 @@ package alipanopen
 import "context"
 
 type GetDriveInfoResp struct {
-	DefaultDriveId  string `json:"default_drive_id"`
-	ResourceDriveId string `json:"resource_drive_id"`
-	BackupDriveId   string `json:"backup_drive_id"`
+	DefaultDriveId  string `json:"default_drive_id"`  // 默认空间ID
+	ResourceDriveId string `json:"resource_drive_id"` // 资源库空间ID
+	BackupDriveId   string `json:"backup_drive_id"`   // 备份盘空间ID
 }
 
+/**
+ * 获取当前用户空间信息
+ */
 func (client *Client) GetDriveInfo(ctx context.Context) (*GetDriveInfoResp, error) {
 	reqBody := EmptyStruct{}
 
