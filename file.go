@@ -203,7 +203,7 @@ type GetUploadUrlResp struct {
 	PartInfoList []UploadPartInfo `json:"part_info_list"`
 }
 
-func (client *Client) GetUploadUrl(ctx context.Context, reqBody *GetUploadUrlResp) (*GetUploadUrlResp, error) {
+func (client *Client) GetUploadUrl(ctx context.Context, reqBody *GetUploadUrlReq) (*GetUploadUrlResp, error) {
 	respBody := &GetUploadUrlResp{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_UPLOAD_URL, reqBody, respBody)
 	if err != nil {
