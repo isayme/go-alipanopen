@@ -41,18 +41,18 @@ func (client *Client) ListFolder(ctx context.Context, reqBody *ListFileReq) ([]*
 	return respBody.Items, nil
 }
 
+type GetFileDownloadUrlReq struct {
+	DriveId string `json:"drive_id"`
+	FileId  string `json:"file_id"`
+}
+
 type GetFileDownloadUrlResp struct {
 	Url        string    `json:"url"`
 	Expiration time.Time `json:"expiration"`
 }
 
 // 获取文件下载地址
-func (client *Client) GetDownloadUrl(ctx context.Context, driveId, fileId string) (*GetFileDownloadUrlResp, error) {
-	reqBody := map[string]string{
-		"drive_id": driveId,
-		"file_id":  fileId,
-	}
-
+func (client *Client) GetDownloadUrl(ctx context.Context, reqBody *GetFileDownloadUrlReq) (*GetFileDownloadUrlResp, error) {
 	respBody := GetFileDownloadUrlResp{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_DOWNLOAD_URL, reqBody, &respBody)
 	if err != nil {
@@ -120,12 +120,13 @@ type CreateFileResp struct {
 	PartInfoList []UploadPartInfo `json:"part_info_list"`
 }
 
+type DeleteFileReq struct {
+	DriveId string `json:"drive_id"`
+	FileId  string `json:"file_id"`
+}
+
 // 删除文件
-func (client *Client) DeleteFile(ctx context.Context, driveId, fileId string) error {
-	reqBody := map[string]string{
-		"drive_id": driveId,
-		"file_id":  fileId,
-	}
+func (client *Client) DeleteFile(ctx context.Context, reqBody *DeleteFileReq) error {
 	respBody := EmptyStruct{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_DELETE, reqBody, &respBody)
 	if err != nil {
@@ -157,13 +158,13 @@ func (client *Client) CompleteFile(ctx context.Context, reqBody *CompleteFileReq
 	return respBody, nil
 }
 
-// 将文件移入回收站
-func (client *Client) TrashFile(ctx context.Context, driveId, fileId string) error {
-	reqBody := map[string]string{
-		"drive_id": driveId,
-		"file_id":  fileId,
-	}
+type TrashFileReq struct {
+	DriveId string `json:"drive_id"`
+	FileId  string `json:"file_id"`
+}
 
+// 将文件移入回收站
+func (client *Client) TrashFile(ctx context.Context, reqBody *TrashFileReq) error {
 	respBody := EmptyStruct{}
 	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_TRASH, reqBody, &respBody)
 	return err

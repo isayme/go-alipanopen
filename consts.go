@@ -51,3 +51,8 @@ const (
 	SCOPE_FILE_ALL_READ  = "file:all:read"  // 允许读用户文件
 	SCOPE_FILE_ALL_WRITE = "file:all:write" // 允许写用户文件
 )
+
+const (
+	GRANT_TYPE_REFRESH_TOKEN      = "refresh_token"
+	GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code"
+)

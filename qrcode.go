@@ -5,18 +5,19 @@ import (
 	"fmt"
 )
 
+type GetQrCodeReq struct {
+	ClientId     string   `json:"client_id"`
+	ClientSecret string   `json:"client_secret"`
+	Scopes       []string `json:"scopes"`
+}
+
 type GetQrCodeResp struct {
 	QrCodeUrl string `json:"qrCodeUrl"`
 	Sid       string `json:"sid"`
 }
 
 // 获取二维码
-func (client *Client) GetQrCode(ctx context.Context, clientId, clientSecret string) (*GetQrCodeResp, error) {
-	reqBody := map[string]interface{}{
-		"client_id":     clientId,
-		"client_secret": clientSecret,
-		"scopes":        []string{"user:base", "file:all:read", "file:all:write"},
-	}
+func (client *Client) GetQrCode(ctx context.Context, reqBody *GetQrCodeReq) (*GetQrCodeResp, error) {
 	respBody := &GetQrCodeResp{}
 	_, err := client.request(METHOD_POST, API_OAUTH_AUTHORIZE_QRCODE, nil, reqBody, respBody)
 	if err != nil {
