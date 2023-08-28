@@ -33,7 +33,7 @@ type ListFileResp struct {
 // 列举文件夹下文件
 func (client *Client) ListFolder(ctx context.Context, reqBody *ListFileReq) ([]*File, error) {
 	respBody := ListFileResp{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_LIST, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_LIST, reqBody, &respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ type GetFileDownloadUrlResp struct {
 // 获取文件下载地址
 func (client *Client) GetDownloadUrl(ctx context.Context, reqBody *GetFileDownloadUrlReq) (*GetFileDownloadUrlResp, error) {
 	respBody := GetFileDownloadUrlResp{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_DOWNLOAD_URL, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_DOWNLOAD_URL, reqBody, &respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (client *Client) CreateFolder(ctx context.Context, reqBody *CreateFolderReq
 	reqBody.Type = FILE_TYPE_FOLDER
 
 	fi := &File{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_CREATE, reqBody, fi)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_CREATE, reqBody, fi)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func (client *Client) CreateFile(ctx context.Context, reqBody *CreateFileReq) (*
 	reqBody.Type = FILE_TYPE_FILE
 
 	respBody := CreateFileResp{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_CREATE, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_CREATE, reqBody, &respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +128,7 @@ type DeleteFileReq struct {
 // 删除文件
 func (client *Client) DeleteFile(ctx context.Context, reqBody *DeleteFileReq) error {
 	respBody := EmptyStruct{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_DELETE, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_DELETE, reqBody, &respBody)
 	if err != nil {
 		return err
 	}
@@ -150,7 +150,7 @@ type CompleteFileResp struct {
 // 完成文件创建
 func (client *Client) CompleteFile(ctx context.Context, reqBody *CompleteFileReq) (*CompleteFileResp, error) {
 	respBody := &CompleteFileResp{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_COMPLETE, reqBody, respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_COMPLETE, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -166,7 +166,7 @@ type TrashFileReq struct {
 // 将文件移入回收站
 func (client *Client) TrashFile(ctx context.Context, reqBody *TrashFileReq) error {
 	respBody := EmptyStruct{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_TRASH, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_TRASH, reqBody, &respBody)
 	return err
 }
 
@@ -183,7 +183,7 @@ type MoveFileReq struct {
 // 移动文件
 func (client *Client) MoveFile(ctx context.Context, reqBody *MoveFileReq) error {
 	respBody := EmptyStruct{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_MOVE, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_MOVE, reqBody, &respBody)
 	return err
 }
 
@@ -197,7 +197,7 @@ type UpdateFileNameReq struct {
 // 更新文件名
 func (client *Client) UpdateFileName(ctx context.Context, reqBody *UpdateFileNameReq) error {
 	respBody := EmptyStruct{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_UPDATE, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_UPDATE, reqBody, &respBody)
 	return err
 }
 
@@ -221,7 +221,7 @@ type GetUploadUrlResp struct {
 // 获取文件上传地址
 func (client *Client) GetUploadUrl(ctx context.Context, reqBody *GetUploadUrlReq) (*GetUploadUrlResp, error) {
 	respBody := &GetUploadUrlResp{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_UPLOAD_URL, reqBody, respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_UPLOAD_URL, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}

@@ -13,7 +13,7 @@ func (client *Client) GetDriveInfo(ctx context.Context) (*GetDriveInfoResp, erro
 	reqBody := EmptyStruct{}
 
 	respBody := GetDriveInfoResp{}
-	_, err := client.requestWithAccessToken(METHOD_POST, API_GET_DRIVE_INFO, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_POST, API_GET_DRIVE_INFO, reqBody, &respBody)
 	if err != nil {
 		return nil, err
 	}

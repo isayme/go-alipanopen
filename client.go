@@ -24,11 +24,6 @@ func NewClient() *Client {
 
 type EmptyStruct struct{}
 
-type ErrorResponse struct {
-	Code    string `json:"code"`
-	Message string `json:"message"`
-}
-
 func (client *Client) SetRestyClient(restyClient *resty.Client) {
 	client.c = restyClient
 }
@@ -45,7 +40,7 @@ func (client *Client) GetAccessToken() string {
 	return client.accessToken
 }
 
-func (client *Client) requestWithAccessToken(method, path string, body, out interface{}) (errResp *ErrorResponse, err error) {
+func (client *Client) requestWithAccessToken(method, path string, body, out interface{}) (err error) {
 	accessToken := client.GetAccessToken()
 
 	headers := make(map[string]string)
@@ -54,7 +49,7 @@ func (client *Client) requestWithAccessToken(method, path string, body, out inte
 	return client.request(method, path, headers, body, out)
 }
 
-func (client *Client) request(method, path string, headers map[string]string, body, out interface{}) (errResp *ErrorResponse, err error) {
+func (client *Client) request(method, path string, headers map[string]string, body, out interface{}) (err error) {
 	url := fmt.Sprintf("%s%s", ALIPAN_OPENAPI_HOST, path)
 
 	req := client.c.R()
@@ -64,31 +59,32 @@ func (client *Client) request(method, path string, headers map[string]string, bo
 
 	resp, err := req.SetDoNotParseResponse(true).SetBody(body).Execute(method, url)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	defer resp.RawBody().Close()
 
 	bs, err := io.ReadAll(resp.RawBody())
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if resp.IsSuccess() {
 		json.Unmarshal(bs, out)
 		if err != nil {
-			return nil, err
+			return err
 		}
-		return nil, nil
+		return nil
 	}
 
 	statusCode := resp.StatusCode()
 
-	errResp = &ErrorResponse{}
+	errResp := &ErrorResponse{}
 	err = json.Unmarshal(bs, errResp)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return errResp, fmt.Errorf("requestFail, code: %s/%d", errResp.Code, statusCode)
+	errResp.StatusCode = statusCode
+	return errResp
 }

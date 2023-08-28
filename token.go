@@ -20,7 +20,7 @@ type RefreshTokenResp struct {
 func (client *Client) RefreshToken(ctx context.Context, reqBody *RefreshTokenReq) (*RefreshTokenResp, error) {
 	reqBody.GrantType = "refresh_token"
 	respBody := &RefreshTokenResp{}
-	_, err := client.request(METHOD_POST, API_OAUTH_ACCESS_TOKEN, nil, reqBody, respBody)
+	err := client.request(METHOD_POST, API_OAUTH_ACCESS_TOKEN, nil, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}

@@ -12,7 +12,7 @@ func (client *Client) GetCurrentUser(ctx context.Context) (*User, error) {
 	reqBody := EmptyStruct{}
 
 	respBody := User{}
-	_, err := client.requestWithAccessToken(METHOD_GET, API_OAUTH_USER_INFO, reqBody, &respBody)
+	err := client.requestWithAccessToken(METHOD_GET, API_OAUTH_USER_INFO, reqBody, &respBody)
 	if err != nil {
 		return nil, err
 	}
