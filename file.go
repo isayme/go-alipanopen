@@ -17,6 +17,36 @@ type File struct {
 	ParentFileId string    `json:"parent_file_id"` // 父文件夹ID
 }
 
+type GetFileReq struct {
+	DriveId string `json:"drive_id"`
+	FileId  string `json:"file_id"`
+}
+
+func (client *Client) GetFile(ctx context.Context, reqBody *GetFileReq) (*File, error) {
+	respBody := File{}
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET, reqBody, &respBody)
+	if err != nil {
+		return nil, err
+	}
+
+	return &respBody, nil
+}
+
+type GetFileByPathReq struct {
+	DriveId  string `json:"drive_id"`
+	FilePath string `json:"file_path"`
+}
+
+func (client *Client) GetFileByPath(ctx context.Context, reqBody *GetFileByPathReq) (*File, error) {
+	respBody := File{}
+	err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_BY_PATH, reqBody, &respBody)
+	if err != nil {
+		return nil, err
+	}
+
+	return &respBody, nil
+}
+
 type ListFileReq struct {
 	DriveId      string `json:"drive_id"`
 	ParentFileId string `json:"parent_file_id"`
@@ -31,14 +61,14 @@ type ListFileResp struct {
 }
 
 // 列举文件夹下文件
-func (client *Client) ListFolder(ctx context.Context, reqBody *ListFileReq) (ListFileResp, error) {
+func (client *Client) ListFolder(ctx context.Context, reqBody *ListFileReq) (*ListFileResp, error) {
 	respBody := ListFileResp{}
 	err := client.requestWithAccessToken(METHOD_POST, API_FILE_LIST, reqBody, &respBody)
 	if err != nil {
 		return nil, err
 	}
 
-	return respBody, nil
+	return &respBody, nil
 }
 
 type GetFileDownloadUrlReq struct {
