@@ -22,6 +22,7 @@ type GetFileReq struct {
 	FileId  string `json:"file_id"`
 }
 
+// 获取文件详情
 func (client *Client) GetFile(ctx context.Context, reqBody *GetFileReq) (*File, error) {
 	respBody := File{}
 	err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET, reqBody, &respBody)
@@ -37,6 +38,7 @@ type GetFileByPathReq struct {
 	FilePath string `json:"file_path"`
 }
 
+// 通过文件路径获取文件详情
 func (client *Client) GetFileByPath(ctx context.Context, reqBody *GetFileByPathReq) (*File, error) {
 	respBody := File{}
 	err := client.requestWithAccessToken(METHOD_POST, API_FILE_GET_BY_PATH, reqBody, &respBody)
