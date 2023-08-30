@@ -31,14 +31,14 @@ type ListFileResp struct {
 }
 
 // 列举文件夹下文件
-func (client *Client) ListFolder(ctx context.Context, reqBody *ListFileReq) ([]*File, error) {
+func (client *Client) ListFolder(ctx context.Context, reqBody *ListFileReq) (ListFileResp, error) {
 	respBody := ListFileResp{}
 	err := client.requestWithAccessToken(METHOD_POST, API_FILE_LIST, reqBody, &respBody)
 	if err != nil {
 		return nil, err
 	}
 
-	return respBody.Items, nil
+	return respBody, nil
 }
 
 type GetFileDownloadUrlReq struct {
@@ -204,6 +204,7 @@ func (client *Client) UpdateFileName(ctx context.Context, reqBody *UpdateFileNam
 type GetUploadPartInfoReq struct {
 	PartNumber int `json:"part_number"`
 }
+
 type GetUploadUrlReq struct {
 	DriveId      string                 `json:"drive_id"`
 	FileId       string                 `json:"file_id"`
