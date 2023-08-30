@@ -26,6 +26,8 @@ const (
 	API_GET_DRIVE_INFO         = "/adrive/v1.0/user/getDriveInfo"
 	API_OAUTH_ACCESS_TOKEN     = "/oauth/access_token"
 	API_OAUTH_AUTHORIZE_QRCODE = "/oauth/authorize/qrcode"
+	API_FILE_GET               = "/adrive/v1.0/openFile/get"
+	API_FILE_GET_BY_PATH       = "/adrive/v1.0/openFile/get_by_path"
 	API_FILE_LIST              = "/adrive/v1.0/openFile/list"
 	API_FILE_CREATE            = "/adrive/v1.0/openFile/create"
 	API_FILE_DELETE            = "/adrive/v1.0/openFile/delete"
