@@ -63,7 +63,7 @@ type ListFileResp struct {
 }
 
 // 列举文件夹下文件
-func (client *Client) ListFolder(ctx context.Context, reqBody *ListFileReq) (*ListFileResp, error) {
+func (client *Client) ListFile(ctx context.Context, reqBody *ListFileReq) (*ListFileResp, error) {
 	respBody := ListFileResp{}
 	err := client.requestWithAccessToken(METHOD_POST, API_FILE_LIST, reqBody, &respBody)
 	if err != nil {
