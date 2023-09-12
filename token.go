@@ -18,7 +18,6 @@ type RefreshTokenResp struct {
 
 // 刷新获取新的用户 token
 func (client *Client) RefreshToken(ctx context.Context, reqBody *RefreshTokenReq) (*RefreshTokenResp, error) {
-	reqBody.GrantType = "refresh_token"
 	respBody := &RefreshTokenResp{}
 	err := client.request(METHOD_POST, API_OAUTH_ACCESS_TOKEN, nil, reqBody, respBody)
 	if err != nil {
